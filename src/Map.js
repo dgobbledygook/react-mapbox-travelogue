@@ -1,9 +1,8 @@
-
 import React, { Component } from 'react'
 import MapboxGl from 'mapbox-gl/dist/mapbox-gl.js'
 import PropTypes from 'prop-types';
+import Layer from './Layer1'
 import Source from './Source'
-import Layer1 from './Layer1'
   
 class Map extends Component {
 
@@ -18,6 +17,9 @@ class Map extends Component {
   updateState(map) {
 
     this.setState( { map })
+
+    console.log("State updated")
+    console.log(map)
 
   }
   
@@ -41,22 +43,13 @@ class Map extends Component {
 
   }
 
-  renderLayer() {
-
-    console.log("renderLayer")
-    return (
-    <Layer1 value = {this.state.map} update = {this.updateState} />
-    )
-  }
-
-
-
   render() {
     
     console.log("render!")
     return (
       <div className='Map' ref={(x) => { this.container = x }}>
-        {this.renderLayer()}
+        <Source value = {this.state.map} update = {this.updateState}/>          
+        <Layer value = {this.state.map} update = {this.updateState} />
       </div>
     )
   }

@@ -3,44 +3,69 @@ import PropTypes from 'prop-types'
 
 export default class Source extends Component {
 
-  static propTypes = {
-    id: PropTypes.string,
-    data: PropTypes.string,
+ constructor(props) {
+
+    super(props)
+    this.update = this.props.update.bind(this)
+    console.log("constructor")
+
+  }
+
+  shouldComponentUpdate(nextProps) {
+
+    console.log("isSourceLoaded")
+    const map = nextProps.value
     
-    children: PropTypes.node
+    if(map.getSource("single-point") == null)
+      return true
+    else 
+      return false
+ }
+
+  componentDidUpdate(prevProps, prevState) { 
+
+    console.log("componentDidUpdate")
+    const map = this.props.value
+    console.log(map)    
+   
+    /*map.addSource('single-point', {
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": []
+        }
+    });*/
+   
+      map.addSource("single-point", {
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [0, 0]
+                }
+            }]
+        }
+      });  
+
+      map.flyTo({
+        center: [
+           0,0]
+            
+    });
+   
+    this.update(map)
+
+    console.log("Added Source")
+
   }
-
-  static contextTypes = {
-    map: PropTypes.object
-  }
-
-  componentWillMount() {
-    const { map } = this.context
-    const {
-      id,
-      data
-    } = this.props
-
-    map.addSource(id, { type: 'geojson', data })
-
-  }
-
-  componentWillUnmount() {
-    const { map } = this.context
-    const { id } = this.props
-    map.removeSource(id)
-  }
-
+  
   render() {
     return (
       <div>
-        {this.props.children &&
-          React.Children.map(this.props.children, child => (
-            React.cloneElement(child, {
-              sourceId: this.props.id
-            })
-          ))
-        }
+       
       </div>
     )
   }

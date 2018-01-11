@@ -7,6 +7,7 @@ class Layer1 extends Component {
   constructor(props) {
 
     super(props)
+    this.update = this.props.update.bind(this)
     console.log("constructor")
 
   }
@@ -24,31 +25,36 @@ class Layer1 extends Component {
 
   }
 
+ shouldComponentUpdate(nextProps) {
+
+    console.log("isSourceLoaded")
+    const map = nextProps.value
+    
+    if(map.getSource("single-point") == null)
+      return true
+    else 
+      return false
+ }
+
   componentDidUpdate(prevProps, prevState) { 
 
     console.log("componentDidUpdate")
     const map = this.props.value;    
-    console.log("loaded")
+    console.log(map)
+    
     map.addLayer({
-          "id": "terrain-data",
-          "type": "line",
-          "source": {
-              type: 'vector',
-              url: 'mapbox://mapbox.mapbox-terrain-v2'
-          },
-          "source-layer": "contour",
-          "layout": {
-              "line-join": "round",
-              "line-cap": "round"
-          },
-          "paint": {
-              "line-color": "#ff69b4",
-              "line-width": 1
-          }
-     
-    })
+        "id": "point",
+        "source": "single-point",
+        "type": "circle",
+        "paint": {
+            "circle-radius": 10,
+            "circle-color": "#007cbf"
+        }
+    });
 
-    this.props.update(map)
+    this.update(map)
+
+    console.log("Added Layer")
 
   }
 
@@ -57,7 +63,6 @@ class Layer1 extends Component {
     console.log("render")
     return (
       <div id="Layer1">
-          Hey, am layer1!
           
       </div>
     );
