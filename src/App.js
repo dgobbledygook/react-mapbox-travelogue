@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Map from './Map'
 import Ledger from './Ledger'
+import Search from './Search'
 
 class App extends Component {
   
@@ -14,15 +15,15 @@ class App extends Component {
       <header className="App-header">         
         <h1 className="App-title">Welcome to Blah!</h1>
       </header>   
-      <div className="Blah">     
+      <div className="Blah">                 
         <Map>         
-        </Map>
-        <Ledger>
-        </Ledger>
+        </Map>        
+        <Search>
+        </Search>  
       </div>
     </div>
     )
   }
 }
 
-export default App;
+export default App

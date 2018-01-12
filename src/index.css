@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+.form-control {
+  font-size: 1rem;
+  padding: 6px 10px;
+}
 
 .App {
   padding: 60px;
@@ -47,11 +51,11 @@ body {
     background: linear-gradient(to right, #FCA107, #7F3121);
 }
 
+
 .map-overlay input {
     background-color: transparent;
     display: inline-block;
-    width: 100%;
+    width: 90%;
     position: relative;
-    margin: 0;
-    cursor: ew-resize;
+    margin: 0; 
 }

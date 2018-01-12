@@ -6,11 +6,9 @@ class Ledger extends Component {
 
 		return (
 
-			<div className='map-overlay top'>
+			<div className='map-overlay'>
 			    <div className='map-overlay-inner'>
-			        <h2>Vacations &hearts; </h2>
-			        <label id='trips'></label>
-			        <input id='slider' type='range' min='0' max='11' step='1' />
+			        
 			    </div>
 		    </div>
 
