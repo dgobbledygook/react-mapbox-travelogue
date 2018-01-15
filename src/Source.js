@@ -1,72 +1,52 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import  { Component } from 'react'
 
 export default class Source extends Component {
 
- constructor(props) {
-
-    super(props)
-    this.update = this.props.update.bind(this)
-    console.log("constructor")
-
-  }
-
   shouldComponentUpdate(nextProps) {
 
-    console.log("isSourceLoaded")
     const map = nextProps.value
     
-    if(map.getSource("single-point") == null)
+    if(map.getSource("single-point") !== null && 
+      (this.props.data !== nextProps.data))
       return true
     else 
       return false
  }
 
-  componentDidUpdate(prevProps, prevState) { 
+ componentWillReceiveProps(nextProps) {
 
-    console.log("componentDidUpdate")
-    const map = this.props.value
-    console.log(map)    
-   
-    /*map.addSource('single-point', {
-        "type": "geojson",
-        "data": {
-            "type": "FeatureCollection",
-            "features": []
-        }
-    });*/
-   
-      map.addSource("single-point", {
-        "type": "geojson",
-        "data": {
-            "type": "FeatureCollection",
-            "features": [{
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [0, 0]
-                }
-            }]
-        }
-      });  
+    if(this.props.value === null && nextProps.value !== null) {
+      const map = nextProps.value
 
-      map.flyTo({
-        center: [
-           0,0]
-            
-    });
-   
-    this.update(map)
+      map.addSource('single-point', {
+          "type": "geojson",
+          "data": {
+              "type": "FeatureCollection",
+              "features": []
+          }
+      });
 
-    console.log("Added Source")
+     this.props.update(map)
+
+    }
+
+  }
+
+  componentWillUpdate(nextProps, nextState) { 
+
+    const map = nextProps.value
+
+    map.getSource('single-point').setData(nextProps.data)
+
+    map.flyTo({
+        center: nextProps.data.geometry.coordinates
+    })
+
+    this.props.update(map)
 
   }
   
   render() {
-    return (
-      <div>
-       
-      </div>
-    )
+    return (null)
   }
 }

@@ -1,56 +1,32 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types';
-import merge from 'lodash.merge'
+import { Component } from 'react';
 
-export default class Layer extends Component {
+class Layer extends Component {
 
-  static propTypes = {
-    id: PropTypes.string,
-    type: PropTypes.string,
-    sourceLayer: PropTypes.string,
-    sourceId: PropTypes.string,
-    paint: PropTypes.object,
-    layout: PropTypes.object
-  }
+  componentWillReceiveProps(nextProps) {
 
-  static contextTypes = {
-    map: PropTypes.object,
-  }
+    const map = nextProps.value;    
 
-  componentWillMount() {
-    const { map } = this.context
-    const {
-      id,
-      type,
-      sourceLayer,
-      sourceId,
-      layout = {},
-      paint = {},
-      sliderValue,
-      isLayerChecked
-    } = this.props
+    if(this.props.value === null && nextProps.value !== null) {
+    
+      map.addLayer({
+          "id": "point",
+          "source": "single-point",
+          "type": "circle",
+          "paint": {
+              "circle-radius": 10,
+              "circle-color": "#007cbf"
+          }
+      });
 
-    const layerId = `${sourceId}-${id}`
-    const opacity = `${type}-opacity`
+      this.props.update(map)
 
-    map.addLayer({
-      id: layerId,
-      source: sourceId,
-      type,
-      layout
-    })
+    }  
 
-  }
-
- 
-  componentWillUnmount() {
-    const { map } = this.context
-    const { id, sourceId } = this.props
-    const layerId = `${sourceId}-${id}`
-    map.removeLayer(layerId)
   }
 
   render() {
-    return null
+    return (null)
   }
 }
+
+export default Layer;
